@@ -1,0 +1,49 @@
+# Render blueprint for Rinse.
+#
+# Render has no native R runtime, so this service builds the repository's
+# Dockerfile (rocker/shiny + all R packages installed at build time). The
+# packages are installed and load-checked during the build, not at runtime.
+#
+# Use it from https://dashboard.render.com/blueprints ("New > Blueprint") and
+# point Render at this repository. Everything below is optional if you would
+# rather create the service by hand - pick runtime "Docker" and copy the same
+# settings.
+services:
+  - type: web
+    name: rinse
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: starter            # disks require a paid instance type
+    healthCheckPath: /health # Rinse answers this with a small JSON payload
+    autoDeploy: true
+    envVars:
+      # Secrets: Render prompts for these on first deploy, never commit them.
+      - key: RINSE_ADMIN_PASSWORD
+        sync: false
+      - key: RINSE_ADMIN_EMAIL
+        value: samikhan57705@gmail.com
+      - key: RINSE_ADMIN_NAME
+        value: Md Sami Ahmad
+      # SQLite lives on the persistent disk mounted below.
+      - key: RINSE_DB
+        value: storage/rinse.sqlite
+      - key: RINSE_IDLE_MINUTES
+        value: 30
+      # Optional integrations - leave blank to keep them switched off.
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: GOOGLE_REDIRECT_URI
+        sync: false
+      - key: TWILIO_ACCOUNT_SID
+        sync: false
+      - key: TWILIO_AUTH_TOKEN
+        sync: false
+      - key: TWILIO_FROM
+        sync: false
+    disk:
+      name: rinse-data
+      mountPath: /app/storage # path *inside* the container
+      sizeGB: 1

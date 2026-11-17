@@ -1,0 +1,22 @@
+# Alternative to Caddy: nginx in front of Rinse. Obtain certificates with certbot.
+map $http_upgrade $connection_upgrade { default upgrade; '' close; }
+server {
+  listen 443 ssl http2;
+  server_name rinse.example.com;
+  ssl_certificate     /etc/letsencrypt/live/rinse.example.com/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/rinse.example.com/privkey.pem;
+  add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+  add_header X-Content-Type-Options nosniff always;
+  add_header X-Frame-Options SAMEORIGIN always;
+  client_max_body_size 30m;
+  location / {
+    proxy_pass http://127.0.0.1:3838;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection $connection_upgrade;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_read_timeout 600s;
+  }
+}

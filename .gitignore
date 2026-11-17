@@ -1,0 +1,33 @@
+# R
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+*.Rproj
+renv/library/
+rsconnect/
+
+# Secrets and local data: never commit these
+.env
+.Renviron
+storage/*.sqlite
+storage/*.sqlite-journal
+storage/.secret
+storage/logs/
+storage/backups/
+output/*
+!output/.gitkeep
+!storage/.gitkeep
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Test artefacts
+tests/testthat/Rplots.pdf
+Rplots.pdf
+storage/*.sqlite-wal
+storage/*.sqlite-shm
+test.log

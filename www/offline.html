@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Rinse - offline</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body{display:grid;place-items:center;min-height:100vh;margin:0;background:var(--bg);padding:24px}
+    .off{max-width:420px;text-align:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);
+         box-shadow:var(--shadow-md);padding:38px 28px}
+    .off img{width:64px;height:64px;border-radius:18px;margin-bottom:16px}
+    .off h1{font-size:1.35rem;margin:0 0 8px}
+    .off p{color:var(--muted);margin:0 0 20px}
+  </style>
+</head>
+<body>
+  <div class="off">
+    <img src="icons/icon-192.png" alt="Rinse">
+    <h1>You are offline</h1>
+    <p>Rinse needs a connection to score, clean and model data. Check your network and try again.</p>
+    <button class="btn primary" onclick="location.reload()">Try again</button>
+  </div>
+</body>
+</html>

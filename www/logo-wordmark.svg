@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 64" role="img" aria-label="Rinse">
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="#0F766E"/>
+  <path d="M32 10.5C32 10.5 16.5 27.2 16.5 38C16.5 46.6 23.4 53.5 32 53.5C40.6 53.5 47.5 46.6 47.5 38C47.5 27.2 32 10.5 32 10.5Z" fill="#FFFFFF"/>
+  <path d="M24.2 38.6L30 44.4L40.2 32.2" fill="none" stroke="#0F766E" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="78" y="44" font-family="Inter, Segoe UI, system-ui, -apple-system, sans-serif" font-size="36" font-weight="700" fill="#1F2933" letter-spacing="-0.8">Rinse</text>
+</svg>

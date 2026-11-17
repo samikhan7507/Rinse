@@ -1,0 +1,17 @@
+{$RINSE_DOMAIN:localhost} {
+	encode gzip
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "SAMEORIGIN"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Permissions-Policy "camera=(), microphone=(), geolocation=()"
+		-Server
+	}
+	# Shiny uses WebSockets; Caddy proxies them automatically.
+	reverse_proxy rinse:3838 {
+		health_uri /?health
+		health_interval 30s
+		flush_interval -1
+	}
+}

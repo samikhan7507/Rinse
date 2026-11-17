@@ -1,0 +1,7 @@
+.git
+storage/*.sqlite
+storage/.secret
+output
+tests
+.Renviron
+.env

@@ -1,0 +1,29 @@
+name: tests
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with: { r-version: "4.3.3", use-public-rspm: true }
+      - name: System libraries
+        run: sudo apt-get update && sudo apt-get install -y libsodium-dev libcurl4-openssl-dev libssl-dev libsqlite3-dev libxml2-dev libuv1-dev
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::shiny, any::dplyr, any::readxl, any::writexl, any::DBI, any::RSQLite, any::jsonlite, any::httr, any::sodium, any::digest, any::zip, any::htmltools, any::DT, any::randomForest, any::testthat, any::rpart, any::nnet, any::cluster
+          needs: check
+      - name: Run tests
+        run: |
+          set -o pipefail
+          Rscript tests/run_tests.R 2>&1 | tee test.log
+        env: { LANG: C.UTF-8 }
+      # R stops at the first error, and its message often names an argument
+      # number instead of a file. Republish the tail of the log as a single
+      # annotation so the useful lines show up next to the commit.
+      - name: Surface the failure
+        if: failure()
+        run: |
+          body=$( (tail -n 40 test.log 2>/dev/null || echo "no test log - a step before the tests failed") | tr -d '\r' | sed -e 's/%/%25/g' | awk '{printf "%s%%0A", $0}')
+          echo "::error file=tests/run_tests.R,title=Tests failed::${body}"
